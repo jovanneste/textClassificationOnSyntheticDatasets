@@ -1,5 +1,5 @@
 import numpy as np
-
+import random
 
 def generateLDA(M, N, T, V, alpha, beta):
 	alpha = [alpha]*T
@@ -11,7 +11,7 @@ def generateLDA(M, N, T, V, alpha, beta):
 	for i in range(M):
 		topic_probs = np.random.dirichlet(alpha, 1)
 		topic_probs = topic_probs.T
-		N_i = 10#random.randint(1,N)
+		N_i = random.randint(1,N)
 		for j in range(N_i):
 			topic = np.random.multinomial(1,np.squeeze(topic_probs))
 			word = np.random.multinomial(1, word_probs[list(topic).index(1)])
