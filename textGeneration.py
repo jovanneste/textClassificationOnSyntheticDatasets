@@ -1,13 +1,13 @@
 import numpy as np
 import random
-import pickle 
+import pickle
 
 def generateLDA(M, N, T, V, alpha, beta):
 	alpha = [alpha]*T
 	beta = [beta]*V
 	words = []
 	documents = []
-	
+
 	word_probs = np.random.dirichlet(beta, T)
 
 	for i in range(M):
@@ -21,18 +21,14 @@ def generateLDA(M, N, T, V, alpha, beta):
 			word = np.random.multinomial(1, word_probs[list(topic).index(1)])
 			words.append(list(word).index(1))
 		documents.append(words)
-            
+
 	return documents
 
 
-C1 = generateLDA(10000,100,10,50000,0.1,0.01)
-# C2 = generateLDA(100000,100,100,50000,0.1,0.01)  
-# C3 = generateLDA(100000,10,1000,50000,0.1,0.01)
+#C1 = generateLDA(10000,100,10,50000,0.1,0.01)
+#C2 = generateLDA(100000,100,100,50000,0.1,0.01)
+C3 = generateLDA(100000,10,1000,50000,0.1,0.01)
 
-file = open('C1', 'wb')
-pickle.dump(C1, file)
+file = open('C3', 'wb')
+pickle.dump(C3, file)
 file.close()
-
-
-
-
