@@ -33,9 +33,11 @@ def cosineSimilarity(x, y):
 	return sum/(len(x)*len(y))
 
 def averageSimilarity(collection):
+	print(len(collection))
 	sim=0
 	pairs = []
 	for i in range(100):
+		print(i)
 		pairs.append([random.choice(collection), random.choice(collection)])
 
 	for pair in pairs:
