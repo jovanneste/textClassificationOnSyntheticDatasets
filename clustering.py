@@ -93,10 +93,7 @@ plot(C1)
 print("Average document cosine similarity:", averageSimilarity(doc_distributions))
 print("Average word cosine similarity:", averageSimilarity(word_distributions))
 
-print(cluster(doc_distributions, 2))
-print(cluster(doc_distributions, 10))
-print(cluster(doc_distributions, 20))
-print(cluster(doc_distributions, 50))
-print(cluster(doc_distributions, 75))
-print(cluster(doc_distributions, 100))
-print(cluster(doc_distributions, 150))
+Ks = [20, 100, 500, 5000]
+
+for k in Ks:
+	print(cluster(doc_distributions, k))
