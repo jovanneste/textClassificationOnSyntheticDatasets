@@ -45,7 +45,7 @@ def generateLDA(M, N, T, V, alpha, beta):
 	return documents, word_distributions, doc_distributions
 
 
-C1, word_distributions, doc_distributions = generateLDA(500,100,10,2000,0.1,0.01)
+C1, word_distributions, doc_distributions = generateLDA(10000,100,10,50000,0.1,0.01)
 #C2 = generateLDA(100000,100,100,50000,0.1,0.01)
 #C3 = generateLDA(100000,10,1000,50000,0.1,0.01)
 
