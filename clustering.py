@@ -51,7 +51,21 @@ def averageSimilarity(collection):
 		sim += cosineSimilarity(pair[0], pair[1])
 	return sim/100
 
+
 # Question 4
+def purity(clusters, classes, k):
+	max_topics = 0
+	n=0
+	for i in range(k):
+		intersection = []
+		for j in clusters[i][0]:
+			n+=1
+			intersection.append(classes[j])
+		max_topics += intersection.count(max(intersection))
+	return max_topics/n
+
+
+
 
 def cluster(words, k):
 	try:
@@ -63,11 +77,26 @@ def cluster(words, k):
 	print("Clustering...")
 	kmeans = KMeans(n_clusters=k, random_state=0).fit(vectors)
 	clusters = kmeans.labels_
-	print(len(clusters))
-	print(clusters)
+	sigma = []
+	classes = []
+	for i in range(k):
+		sigma.append(np.where(clusters==i))
+
+	for document in list(words):
+		classes.append(np.argmax(document))
+
+	print("Purity with " + str(k) + " clusters: " + str(purity(sigma, classes, k)))
 
 
-# print("Average document cosine similarity:", averageSimilarity(doc_distributions))
-# print("Average word cosine similarity:", averageSimilarity(word_distributions))
+plot(C1)
 
+print("Average document cosine similarity:", averageSimilarity(doc_distributions))
+print("Average word cosine similarity:", averageSimilarity(word_distributions))
+
+print(cluster(doc_distributions, 2))
+print(cluster(doc_distributions, 10))
 print(cluster(doc_distributions, 20))
+print(cluster(doc_distributions, 50))
+print(cluster(doc_distributions, 75))
+print(cluster(doc_distributions, 100))
+print(cluster(doc_distributions, 150))
