@@ -88,7 +88,10 @@ def cluster(words, k):
 	print("Purity with " + str(k) + " clusters: " + str(purity(sigma, classes, k)))
 
 
+print("Plotting...")
+
 plot(C1)
+print("Average cosine similarity...")
 
 print("Average document cosine similarity:", averageSimilarity(doc_distributions))
 print("Average word cosine similarity:", averageSimilarity(word_distributions))
@@ -96,4 +99,4 @@ print("Average word cosine similarity:", averageSimilarity(word_distributions))
 Ks = [20, 100, 500, 5000]
 
 for k in Ks:
-	print(cluster(doc_distributions, k))
+	cluster(doc_distributions, k)
