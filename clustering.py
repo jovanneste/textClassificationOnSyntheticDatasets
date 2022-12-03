@@ -4,6 +4,7 @@ import random
 import numpy as np
 from sklearn.cluster import KMeans
 
+
 # Question 1
 def plot(collection):
 	topic_num = (len(collection[0][1][0]))
@@ -15,33 +16,26 @@ def plot(collection):
 		for j in range(5):
 			index = random.choice(range(len(topics)))
 			chosen_topics.append(topics[index])
-
 	for t in chosen_topics:
 		list_sum = np.asarray(t) + np.asarray(list_sum)
 
 
 	plt.bar(list(range(1, topic_num+1)), list_sum)
-	plt.title('C1 distribution')
+	plt.title('C3 distribution')
 	plt.xlabel('Topics')
 	plt.ylabel('Occurences')
 	plt.show()
 
-collections = []
-print("Loading collections...")
-
-file = open('C1', 'rb')
-C1, word_distributions, doc_distributions = pickle.load(file)
-file.close()
-
 
 # Question 3
 def cosineSimilarity(x, y):
-	sum=0
-	for i in range(len(x)):
-		sum+=x[i]*y[i]
-	return sum/(len(x)*len(y))
+	sum = np.dot(x, y)
+	sum_of_squares = float(np.linalg.norm(x)*np.linalg.norm(y))
+	return sum/sum_of_squares
 
 def averageSimilarity(collection):
+	if type(collection)!=list:
+		collection = list(collection.values())
 	sim=0
 	pairs = []
 	for i in range(100):
@@ -65,15 +59,12 @@ def purity(clusters, classes, k):
 	return max_topics/n
 
 
-
-
 def cluster(words, k):
 	try:
 		vectors = list(words.values())
 	except:
 		vectors = words
 	vectors = np.array(vectors)
-	print(vectors.shape)
 	print("Clustering...")
 	kmeans = KMeans(n_clusters=k, random_state=0).fit(vectors)
 	clusters = kmeans.labels_
@@ -88,15 +79,24 @@ def cluster(words, k):
 	print("Purity with " + str(k) + " clusters: " + str(purity(sigma, classes, k)))
 
 
-print("Plotting...")
+if __name__ == '__main__':
 
-plot(C1)
-print("Average cosine similarity...")
+	print("Loading collection...")
+	file = open('C3', 'rb')
+	C1, word_distributions, doc_distributions = pickle.load(file)
+	file.close()
 
-print("Average document cosine similarity:", averageSimilarity(doc_distributions))
-print("Average word cosine similarity:", averageSimilarity(word_distributions))
 
-Ks = [20, 100, 500, 5000]
+	print("Plotting...")
+	plot(C1)
 
-for k in Ks:
-	cluster(doc_distributions, k)
+
+	# remove all words that do not show up in document
+	word_distributions = {x:y for x,y in word_distributions.items() if list(y)!=[0]*len(word_distributions[0])}
+	print("Average document cosine similarity:", averageSimilarity(doc_distributions))
+	print("Average word cosine similarity:", averageSimilarity(word_distributions))
+
+	# Ks = [20, 100, 500, 5000]
+	#
+	# for k in Ks:
+	# 	cluster(doc_distributions, k)
