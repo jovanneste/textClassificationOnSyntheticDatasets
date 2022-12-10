@@ -3,25 +3,31 @@ import pickle
 import random
 import numpy as np
 from sklearn.cluster import KMeans
+import sys
 
+# from topics of a document return the topic distribution of that document
+def documentTopic(topics):
+	list_sum = [0]*len(topics[0])
+	for t in topics:
+		list_sum = np.asarray(t) + np.asarray(list_sum)
+	return list_sum
+
+# get topic distribution for jth word
+def topicWord(word_topics, j):
+	return word_topics[j]
 
 # Question 1
 def plot(collection):
 	topic_num = (len(collection[0][1][0]))
 	chosen_topics = []
-	list_sum = [0]*topic_num
 	for i in range(5):
 		document = random.choice(collection)
 		topics = document[1]
 		for j in range(5):
 			index = random.choice(range(len(topics)))
 			chosen_topics.append(topics[index])
-	for t in chosen_topics:
-		list_sum = np.asarray(t) + np.asarray(list_sum)
-
-
-	plt.bar(list(range(1, topic_num+1)), list_sum)
-	plt.title('C3 distribution')
+	document_topic_dist = documentTopic(chosen_topics)
+	plt.bar(list(range(1, topic_num+1)), document_topic_dist)
 	plt.xlabel('Topics')
 	plt.ylabel('Occurences')
 	plt.show()
@@ -80,23 +86,19 @@ def cluster(words, k):
 
 
 if __name__ == '__main__':
-
-	print("Loading collection...")
-	file = open('C3', 'rb')
+	file = open('C1', 'rb')
 	C1, word_distributions, doc_distributions = pickle.load(file)
 	file.close()
 
+	print(topicWord(word_distributions, 5))
 
-	print("Plotting...")
 	plot(C1)
-
 
 	# remove all words that do not show up in document
 	word_distributions = {x:y for x,y in word_distributions.items() if list(y)!=[0]*len(word_distributions[0])}
 	print("Average document cosine similarity:", averageSimilarity(doc_distributions))
 	print("Average word cosine similarity:", averageSimilarity(word_distributions))
 
-	# Ks = [20, 100, 500, 5000]
-	#
-	# for k in Ks:
-	# 	cluster(doc_distributions, k)
+	Ks = [20, 100, 500, 5000]
+	for k in Ks:
+		cluster(doc_distributions, k)
