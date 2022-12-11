@@ -20,8 +20,6 @@ def generateLDA(M, N, T, V, alpha, beta):
 	for i in range(M):
 		topics=[]
 		doc_distribution = [0]*T
-		if i%10==0:
-			print(i)
 		topic_probs = np.random.dirichlet(alpha, 1)
 		topic_probs = topic_probs.T
 		N_i = random.randint(1,N)
@@ -46,9 +44,8 @@ def generateLDA(M, N, T, V, alpha, beta):
 
 
 C1, word_distributions, doc_distributions = generateLDA(10000,100,10,50000,0.1,0.01)
-#C2, word_distributions, doc_distributions = generateLDA(100000,100,100,50000,0.1,0.01)
-#C3, word_distributions, doc_distributions  = generateLDA(100000,10,1000,50000,0.1,0.01)
-
+C2, word_distributions, doc_distributions = generateLDA(100000,100,100,50000,0.1,0.01)
+C3, word_distributions, doc_distributions  = generateLDA(100000,10,1000,50000,0.1,0.01)
 
 
 print("Saving...")
